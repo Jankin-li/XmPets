@@ -19,57 +19,51 @@ cc.Class({
         scoreGotLabel: cc.Label,
     },
 
-    instantiateNewItem: function () {
+    instantiateNewItem: function (endPos) {
         let iconPrefab = cc.instantiate(this.iconPrefabs);
         iconPrefab.getComponent('ZoonItem').index = Math.floor(Math.random() * 10 % 7);
         //初始化坐标
         let startPos = cc.v2(endPos.x, endPos.y + cc.winSize.height);//生成坐标
         this.node.addChild(iconPrefab);//将实例化的物体添加为框的子节点
         iconPrefab.setPosition(startPos);//设置生成坐标
+        let duration = startPos.y / (cc.winSize.height / this.dropSpeed);//计算降落时间
+        let moveTo = cc.moveTo(duration, endPos);//设置动画
+        iconPrefab.runAction(moveTo);//播放动作
+
+        //对于实例化的物体进行点击注册
+        iconPrefab.on(cc.Node.EventType.TOUCH_END, (evenTouch) => {
+            //临时数组
+            this.deletArry = [];
+            //遍历相同  
+            this.countItemDelet(iconPrefab);
+            //分数处理
+            this.countScore();
+            //删除
+            if (this.deletArry.length > 1) {
+                this.deletArry.forEach(function (element) {
+                    let i = element.rowLocal * this.ColMax + element.colLocal;
+                    this._IconAryy[i] = null;
+                    element.destroy();
+                }.bind(this));
+            } else {
+                iconPrefab.isSerched = false;
+            };
+            //Item 掉落补充
+            this.dropTheItem();
+        }, this);
+        return iconPrefab;
     },
 
     setIconInTheLay: function () {
         for (let row = 0; row < this.RowMax; row++) {
             for (let col = 0; col < this.ColMax; col++) {
-                let iconPrefab = cc.instantiate(this.iconPrefabs);
-                iconPrefab.getComponent('ZoonItem').index = Math.floor(Math.random() * 10 % 7);
-
-                //设置实例化的坐标
-                iconPrefab.rowLocal = row;
-                iconPrefab.colLocal = col;
-
                 //初始化坐标
                 let endPos = this.countPos(col, row);//降落坐标
-                let startPos = cc.v2(endPos.x, endPos.y + cc.winSize.height);//生成坐标
-                this.node.addChild(iconPrefab);//将实例化的物体添加为框的子节点
-                iconPrefab.setPosition(startPos);//设置生成坐标
-                let duration = startPos.y / (cc.winSize.height / this.dropSpeed);//计算降落时间
-                let moveTo = cc.moveTo(duration, endPos);//设置动画
-                iconPrefab.runAction(moveTo);//播放动作
-
-                this._IconAryy.push(iconPrefab);//弹入一维数组中保存
-
-                //对于实例化的物体进行点击注册
-                iconPrefab.on(cc.Node.EventType.TOUCH_END, (evenTouch) => {
-                    //临时数组
-                    this.deletArry = [];
-                    //遍历相同  
-                    this.countItemDelet(iconPrefab);
-                    //分数处理
-                    this.countScore();
-                    //删除
-                    if (this.deletArry.length > 1) {
-                        this.deletArry.forEach(function (element) {
-                            let i = element.rowLocal * this.ColMax + element.colLocal;
-                            this._IconAryy[i] = null;
-                            element.destroy();
-                        }.bind(this));
-                    } else {
-                        iconPrefab.isSerched = false;
-                    };
-                    //Item 掉落补充
-                    this.dropTheItem();
-                }, this);
+                let iconPrefab = this.instantiateNewItem(endPos);
+                //设置实例化的坐标
+                iconPrefab.rowLocal = row;
+                iconPrefab.colLocal = col;              
+                this._IconAryy.push(iconPrefab);//弹入一维数组中保存       
             }
         }
     },
@@ -193,7 +187,6 @@ cc.Class({
     },
 
     start() {
-
         this.setIconInTheLay();
     },
 
