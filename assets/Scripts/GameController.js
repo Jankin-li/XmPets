@@ -45,11 +45,13 @@ cc.Class({
                     this._IconAryy[i] = null;
                     element.destroy();
                 }.bind(this));
+                this.dropTheItem();
+                this.addNewItem();
             } else {
                 iconPrefab.isSerched = false;
             };
             //Item 掉落补充
-            this.dropTheItem();
+
         }, this);
         return iconPrefab;
     },
@@ -62,29 +64,26 @@ cc.Class({
                 let iconPrefab = this.instantiateNewItem(endPos);
                 //设置实例化的坐标
                 iconPrefab.rowLocal = row;
-                iconPrefab.colLocal = col;              
+                iconPrefab.colLocal = col;
                 this._IconAryy.push(iconPrefab);//弹入一维数组中保存       
             }
         }
     },
+    //独立出删除功能
+    onDeletItem: function (iconPrefab) {
 
-    onDeletItem:function(iconPrefab) {
-     
     },
 
 
     // //掉落补充
     dropTheItem() {
-        // let arrayOfNull=[];
         //
-
-        for (let col = 0; col < 7; col++) {
+        for (let col = 0; col < this.ColMax; col++) {
             let blankNum = 0;//空格数
-            for (let row = 0; row < 9; row++) {
+            for (let row = 0; row < this.RowMax; row++) {
                 //对于当前的位置进行计算索引
                 let idx = col + row * this.ColMax;
                 //对于当前索引原数组中的值进行判断 如果非空就对其进行操作,为空就对blankNum++
-
                 if (!this._IconAryy[idx]) {
                     blankNum++;
                     continue;
@@ -108,11 +107,29 @@ cc.Class({
                         newItemPull.runAction(moveTo);//播放动zuo
                     }
                 }
-
             }
-            // for (let n = 0; n <= blankNum; n++) {
-            //     this.instantiateNewItem();
-            // }
+
+        }
+    },
+
+    //补充Item
+    addNewItem() {
+        for (let col = 0; col < this.ColMax; col++) {
+            for (let row = 0; row < this.RowMax; row++) {
+                //对于当前的位置进行计算索引
+                let idx = col + row * this.ColMax;
+                //如果当前位置为空
+                if (this._IconAryy[idx]==null) {
+                    //在对应的位置的上方生成一个Item
+                    //初始化坐标位置
+                    let endPos = this.countPos(col, row);//降落坐标
+                    let iconPrefab = this.instantiateNewItem(endPos);
+                    //设置实例化的坐标
+                    iconPrefab.rowLocal = row;
+                    iconPrefab.colLocal = col;
+                    this._IconAryy[idx] = iconPrefab;
+                }
+            }
         }
     },
 
