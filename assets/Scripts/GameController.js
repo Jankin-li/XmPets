@@ -29,11 +29,10 @@ cc.Class({
     },
 
     setIconInTheLay: function () {
-        for (var row = 0; row < this.RowMax; row++) {
-            for (var col = 0; col < this.ColMax; col++) {
+        for (let row = 0; row < this.RowMax; row++) {
+            for (let col = 0; col < this.ColMax; col++) {
                 let iconPrefab = cc.instantiate(this.iconPrefabs);
                 iconPrefab.getComponent('ZoonItem').index = Math.floor(Math.random() * 10 % 7);
-
 
                 //设置实例化的坐标
                 iconPrefab.rowLocal = row;
@@ -69,48 +68,57 @@ cc.Class({
                         iconPrefab.isSerched = false;
                     };
                     //Item 掉落补充
-                    // this.dropTheItem();
+                    this.dropTheItem();
                 }, this);
             }
         }
+    },
+
+    onDeletItem:function(iconPrefab) {
+     
     },
 
 
     // //掉落补充
     dropTheItem() {
         // let arrayOfNull=[];
-        //先遍历行再遍历列
-        for (var row = 0; row < this.RowMax; row++) {
+        //
+
+        for (let col = 0; col < 7; col++) {
             let blankNum = 0;//空格数
-            for (let col = 0; col < this.ColMax; col++) {
+            for (let row = 0; row < 9; row++) {
                 //对于当前的位置进行计算索引
                 let idx = col + row * this.ColMax;
                 //对于当前索引原数组中的值进行判断 如果非空就对其进行操作,为空就对blankNum++
+
                 if (!this._IconAryy[idx]) {
                     blankNum++;
                     continue;
                 } else {
                     if (blankNum > 0) {
                         //上一行同一列的空格的位置的索引
-                        let oldIdx = col + (row - 1) * this.ColMax;
+                        let oldIdx = col + (row - blankNum) * this.ColMax;
                         //将当前的物体移动前面的空格中
-                        let newItemPull =this._IconAryy[oldIdx];
-                        newItemPull = this._IconAryy[idx];
+                        let newItemPull = this._IconAryy[idx];
+                        this._IconAryy[idx] = null;
+                        this._IconAryy[oldIdx] = newItemPull;
                         //设置移动过后的新坐标
-                        this._IconAryy[oldIdx].rowLocal = row - 1;
-                        this._IconAryy[oldIdx].colLocal = col;
+                        newItemPull.rowLocal = row - blankNum;
+                        newItemPull.colLocal = col;
+                        let nowRow = row - blankNum;
                         //计算坐标位置同时调用动画
-                        let endPos = this.countPos(col, row - 1)
-                        let duration=this._IconAryy[oldIdx].y/(this._IconAryy[oldIdx].y/this.dropSpeed);
+                        let endPos = this.countPos(col, nowRow);
+                        let duration = this.dropSpeed;
                         let moveTo = cc.moveTo(duration, endPos);//设置动画
-                        this._IconAryy[oldIdx].stopAction(moveTo);
-                        this._IconAryy[oldIdx].runAction(moveTo);//播放动作
-                    } else { continue; }
+                        newItemPull.stopAllActions();
+                        newItemPull.runAction(moveTo);//播放动zuo
+                    }
                 }
-                // for (let n = 0; n <= blankNum; n++) {
-                //     this.instantiateNewItem();
-                // }
+
             }
+            // for (let n = 0; n <= blankNum; n++) {
+            //     this.instantiateNewItem();
+            // }
         }
     },
 
