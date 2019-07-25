@@ -17,8 +17,9 @@ cc.Class({
         ScoreStep: 10,
         baseScore: 0,
         scoreGotLabel: cc.Label,
+        effect: cc.Prefab,
     },
-
+    //生成Item
     instantiateNewItem: function (endPos) {
         let iconPrefab = cc.instantiate(this.iconPrefabs);
         iconPrefab.getComponent('ZoonItem').index = Math.floor(Math.random() * 10 % 7);
@@ -30,6 +31,7 @@ cc.Class({
         let moveTo = cc.moveTo(duration, endPos);//设置动画
         iconPrefab.runAction(moveTo);//播放动作
 
+
         //对于实例化的物体进行点击注册
         iconPrefab.on(cc.Node.EventType.TOUCH_END, (evenTouch) => {
             //临时数组
@@ -38,24 +40,36 @@ cc.Class({
             this.countItemDelet(iconPrefab);
             //分数处理
             this.countScore();
+
             //删除
             if (this.deletArry.length > 1) {
                 this.deletArry.forEach(function (element) {
+                    //实例化特效
+                    let effectInStantiate = cc.instantiate(this.effect);
+                    this.node.addChild(effectInStantiate);
+                    let setPos = this.countPos(element.colLocal, element.rowLocal);
+                    effectInStantiate.setPosition(setPos);
+                    var callFunc = cc.callFunc(() => {
+                        effectInStantiate.destroy();
+                    });
+                    // effectInStantiate.getComponentsInChildren('ZoonItem')
                     let i = element.rowLocal * this.ColMax + element.colLocal;
                     this._IconAryy[i] = null;
                     element.destroy();
+                    let delayAct = cc.delayTime(0.5);
+                    let sequence = cc.sequence(delayAct, callFunc);
+                    effectInStantiate.runAction(sequence);
                 }.bind(this));
-                this.dropTheItem();
 
+                this.dropTheItem();
             } else {
                 iconPrefab.isSerched = false;
             };
-            //Item 掉落补充
-
         }, this);
         return iconPrefab;
     },
 
+    //开局初始化
     setIconInTheLay: function () {
         for (let row = 0; row < this.RowMax; row++) {
             for (let col = 0; col < this.ColMax; col++) {
@@ -142,6 +156,7 @@ cc.Class({
         //总分计算
         this.baseScore = score + this.baseScore;
         this.scoreGotLabel.string = "" + this.baseScore;//更新文本
+        return score;
     },
 
     countItemDelet: function (curretTarget) {
