@@ -54,6 +54,7 @@ cc.Class({
             this.countScore();
             if (this.deletArry.length > 1) {
                 let n = 0;//累积器
+                //播放音效
                 this.playDeletAudios();
                 //删除
                 this.deletArry.forEach(function (element) {
@@ -84,8 +85,9 @@ cc.Class({
             } else {
                 iconPrefab.isSerched = false;
             };
+
             // cc.audioEngine.stopAllEffects();
-            
+
         }, this);
 
         return iconPrefab;
@@ -102,7 +104,7 @@ cc.Class({
             case 8: cc.audioEngine.play(this.deletAudios[6], false, 1); return;
             case 9: cc.audioEngine.play(this.deletAudios[7], false, 1); return;
         }
-        
+
     },
 
     //开局初始化
