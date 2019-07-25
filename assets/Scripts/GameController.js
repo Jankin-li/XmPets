@@ -46,7 +46,7 @@ cc.Class({
                     element.destroy();
                 }.bind(this));
                 this.dropTheItem();
-                this.addNewItem();
+
             } else {
                 iconPrefab.isSerched = false;
             };
@@ -101,34 +101,32 @@ cc.Class({
                         let nowRow = row - blankNum;
                         //计算坐标位置同时调用动画
                         let endPos = this.countPos(col, nowRow);
-                        let duration = this.dropSpeed;
+                        let duration = this.dropSpeed / 2;
                         let moveTo = cc.moveTo(duration, endPos);//设置动画
                         newItemPull.stopAllActions();
                         newItemPull.runAction(moveTo);//播放动zuo
                     }
                 }
             }
-
+            this.addNewItem(col);
         }
     },
 
     //补充Item
-    addNewItem() {
-        for (let col = 0; col < this.ColMax; col++) {
-            for (let row = 0; row < this.RowMax; row++) {
-                //对于当前的位置进行计算索引
-                let idx = col + row * this.ColMax;
-                //如果当前位置为空
-                if (this._IconAryy[idx]==null) {
-                    //在对应的位置的上方生成一个Item
-                    //初始化坐标位置
-                    let endPos = this.countPos(col, row);//降落坐标
-                    let iconPrefab = this.instantiateNewItem(endPos);
-                    //设置实例化的坐标
-                    iconPrefab.rowLocal = row;
-                    iconPrefab.colLocal = col;
-                    this._IconAryy[idx] = iconPrefab;
-                }
+    addNewItem(col) {
+        for (let row = 0; row < this.RowMax; row++) {
+            //对于当前的位置进行计算索引
+            let idx = col + row * this.ColMax;
+            //如果当前位置为空
+            if (this._IconAryy[idx] == null) {
+                //在对应的位置的上方生成一个Item
+                //初始化坐标位置
+                let endPos = this.countPos(col, row);//降落坐标
+                let iconPrefab = this.instantiateNewItem(endPos);
+                //设置实例化的坐标
+                iconPrefab.rowLocal = row;
+                iconPrefab.colLocal = col;
+                this._IconAryy[idx] = iconPrefab;
             }
         }
     },
@@ -197,7 +195,6 @@ cc.Class({
     // },
 
     onLoad() {
-
         var iconPrefab = cc.instantiate(this.iconPrefabs);
         this.startPosX = (-this.node.width + iconPrefab.width) / 2 + this.startIntervalX;
         this.startPosY = (-this.node.height + iconPrefab.height) / 2 + this.startIntervalY;
