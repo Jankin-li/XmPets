@@ -40,9 +40,9 @@ cc.Class({
             this.countItemDelet(iconPrefab);
             //分数处理
             this.countScore();
-
-            //删除
             if (this.deletArry.length > 1) {
+                let n = 0;//用于输出类加分
+                //删除
                 this.deletArry.forEach(function (element) {
                     //实例化特效
                     let effectInStantiate = cc.instantiate(this.effect);
@@ -52,13 +52,14 @@ cc.Class({
                     var callFunc = cc.callFunc(() => {
                         effectInStantiate.destroy();
                     });
-                    // effectInStantiate.getComponentsInChildren('ZoonItem')
+                    effectInStantiate.getComponentInChildren(cc.Label).string = '' + (15 + 10 * n);//分数显示
                     let i = element.rowLocal * this.ColMax + element.colLocal;
                     this._IconAryy[i] = null;
                     element.destroy();
                     let delayAct = cc.delayTime(0.5);
                     let sequence = cc.sequence(delayAct, callFunc);
                     effectInStantiate.runAction(sequence);
+                    n++;
                 }.bind(this));
 
                 this.dropTheItem();
@@ -152,7 +153,10 @@ cc.Class({
             return;
         }
         //得分计算
-        let score = (this.ScoreStep * (length - 1) + this.ScoreStart * 2) * 1 * length / 2;
+        let score = this.ScoreStart;
+        for (let m = 0; m < length; m++) {
+            score = score + this.ScoreStep;
+        }
         //总分计算
         this.baseScore = score + this.baseScore;
         this.scoreGotLabel.string = "" + this.baseScore;//更新文本
