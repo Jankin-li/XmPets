@@ -41,8 +41,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 0.4383870617839478,
-      "y": 0.4383870617839478,
+      "x": 0.4352752816480619,
+      "y": 0.4352752816480619,
       "z": 1
     },
     "_quat": {
@@ -75,7 +75,7 @@
     "_level": 1,
     "_components": [
       {
-        "__id__": 78
+        "__id__": 79
       }
     ],
     "_prefab": null,
@@ -233,10 +233,10 @@
     "_level": 1,
     "_components": [
       {
-        "__id__": 76
+        "__id__": 77
       },
       {
-        "__id__": 77
+        "__id__": 78
       }
     ],
     "_prefab": null,
@@ -3377,6 +3377,9 @@
       },
       {
         "__id__": 75
+      },
+      {
+        "__id__": 76
       }
     ],
     "_prefab": null,
@@ -3437,8 +3440,8 @@
     },
     "RowMax": 9,
     "ColMax": 7,
-    "startPosX": 0,
-    "startPosY": 0,
+    "_startPosX": 0,
+    "_startPosY": 0,
     "startIntervalX": 5,
     "startIntervalY": 3,
     "_IconAryy": [],
@@ -3452,6 +3455,32 @@
     "effect": {
       "__uuid__": "8cc46e35-390a-48a0-8745-c54d961080ce"
     },
+    "deletAudios": [
+      {
+        "__uuid__": "63051ac7-c282-4671-9320-ae341d41870c"
+      },
+      {
+        "__uuid__": "28f44155-9ebf-482b-8abd-c7c66ba1c349"
+      },
+      {
+        "__uuid__": "23a6b2d7-bcb7-4736-97da-8b0f18f595b3"
+      },
+      {
+        "__uuid__": "57e6cf3d-29d9-4217-98c2-80822ceb03e9"
+      },
+      {
+        "__uuid__": "5cc733e0-5de0-443b-acb4-c8d7bae025ea"
+      },
+      {
+        "__uuid__": "d4e28704-055e-4529-9887-20faa51bf7dc"
+      },
+      {
+        "__uuid__": "aff96ea2-39be-444a-b1b6-7d370c267dee"
+      },
+      {
+        "__uuid__": "f11f0c07-65b9-4c34-913c-a6694e7a9bce"
+      }
+    ],
     "_id": "16uwwmV5FL9bM0jxDpJ3O0"
   },
   {
@@ -3480,6 +3509,24 @@
     "_originalWidth": 630,
     "_originalHeight": 806,
     "_id": "e2x9YFuS9P4aJKQxXpzrC2"
+  },
+  {
+    "__type__": "cc.AudioSource",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 73
+    },
+    "_enabled": true,
+    "_clip": {
+      "__uuid__": "5c3b49bb-dd17-4314-8f2e-bca4ece2daea"
+    },
+    "_volume": 1,
+    "_mute": false,
+    "_loop": true,
+    "playOnLoad": true,
+    "preload": false,
+    "_id": "224fxi0wlKhZ49sfm8s2gm"
   },
   {
     "__type__": "cc.Sprite",
