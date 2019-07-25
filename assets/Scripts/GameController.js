@@ -7,18 +7,19 @@ cc.Class({
         iconPrefabs: cc.Prefab,
         RowMax: 9,//行的个数 row是行号
         ColMax: 7,//列的个数 col是列号
-        startPosX: 0,
-        startPosY: 0,
-        startIntervalX: 10,
-        startIntervalY: 10,
-        _IconAryy: [],
-        dropSpeed: 1.5,
-        ScoreStart: 15,
-        ScoreStep: 10,
-        baseScore: 0,
-        scoreGotLabel: cc.Label,
-        effect: cc.Prefab,
+        _startPosX: 0,//开始位置X
+        _startPosY: 0,//开始位置Y
+        startIntervalX: 10,//左右间距
+        startIntervalY: 10,//上下间距
+        _IconAryy: [],//全局数组,用于存储
+        dropSpeed: 1.5,//掉落速度
+        ScoreStart: 15,//加分开始值
+        ScoreStep: 10,//加分值
+        baseScore: 0,//总分
+        scoreGotLabel: cc.Label,//获取积分组件
+        effect: cc.Prefab,//获取特效组件
     },
+
     //生成Item
     instantiateNewItem: function (endPos) {
         let iconPrefab = cc.instantiate(this.iconPrefabs);
@@ -31,7 +32,6 @@ cc.Class({
         let moveTo = cc.moveTo(duration, endPos);//设置动画
         iconPrefab.runAction(moveTo);//播放动作
 
-
         //对于实例化的物体进行点击注册
         iconPrefab.on(cc.Node.EventType.TOUCH_END, (evenTouch) => {
             //临时数组
@@ -41,7 +41,7 @@ cc.Class({
             //分数处理
             this.countScore();
             if (this.deletArry.length > 1) {
-                let n = 0;//用于输出类加分
+                let n = 0;//累积器
                 //删除
                 this.deletArry.forEach(function (element) {
                     //实例化特效
@@ -49,19 +49,24 @@ cc.Class({
                     this.node.addChild(effectInStantiate);
                     let setPos = this.countPos(element.colLocal, element.rowLocal);
                     effectInStantiate.setPosition(setPos);
+                    //回调器,用于摧毁特效对象
                     var callFunc = cc.callFunc(() => {
                         effectInStantiate.destroy();
                     });
-                    effectInStantiate.getComponentInChildren(cc.Label).string = '' + (15 + 10 * n);//分数显示
+                    //更改特效中Label的数值
+                    effectInStantiate.getComponentInChildren(cc.Label).string = '' + (this.ScoreStart + this.ScoreStep * n);//分数显示
+                    
+                    //计算索引
                     let i = element.rowLocal * this.ColMax + element.colLocal;
-                    this._IconAryy[i] = null;
-                    element.destroy();
+                    this._IconAryy[i] = null;//清空数组在当前位置的内存
+                    element.destroy();//当前Item摧毁
+                    
+                    //特效延时摧毁器
                     let delayAct = cc.delayTime(0.5);
                     let sequence = cc.sequence(delayAct, callFunc);
                     effectInStantiate.runAction(sequence);
-                    n++;
-                }.bind(this));
-
+                    n++;//累加
+                }.bind(this)); 
                 this.dropTheItem();
             } else {
                 iconPrefab.isSerched = false;
@@ -201,22 +206,22 @@ cc.Class({
 
     //自己想法:
     countPos(cols, rows) {
-        let x = this.startPosX + (this.node.width / this.ColMax) * cols;//在哪一列
-        let y = this.startPosY + (this.node.height / this.RowMax) * rows;//在哪一行
+        let x = this._startPosX + (this.node.width / this.ColMax) * cols;//在哪一列
+        let y = this._startPosY + (this.node.height / this.RowMax) * rows;//在哪一行
         return cc.v2(x, y);
     },
     // 老师的算法:
     // countPositon: function (cols, rows, e) {
-    //     let x = this.startPosX+ this.interValSizeX + (e.width ) * cols;
-    //     let y = this.startPosY+ this.interValSizeY + (e.height ) * rows;
+    //     let x = this._startPosX+ this.interValSizeX + (e.width ) * cols;
+    //     let y = this._startPosY+ this.interValSizeY + (e.height ) * rows;
     //     cc.log(x, y);
     //     return cc.v2(x, y);
     // },
 
     onLoad() {
         var iconPrefab = cc.instantiate(this.iconPrefabs);
-        this.startPosX = (-this.node.width + iconPrefab.width) / 2 + this.startIntervalX;
-        this.startPosY = (-this.node.height + iconPrefab.height) / 2 + this.startIntervalY;
+        this._startPosX = (-this.node.width + iconPrefab.width) / 2 + this.startIntervalX;
+        this._startPosY = (-this.node.height + iconPrefab.height) / 2 + this.startIntervalY;
     },
 
     start() {
