@@ -76,6 +76,9 @@
     "_components": [
       {
         "__id__": 82
+      },
+      {
+        "__id__": 83
       }
     ],
     "_prefab": null,
@@ -369,9 +372,6 @@
     "effect": {
       "__uuid__": "8cc46e35-390a-48a0-8745-c54d961080ce"
     },
-    "itemActivePre": {
-      "__uuid__": "1d5fb77f-18c6-41dc-9404-9ed1e35b4fb7"
-    },
     "_id": "16uwwmV5FL9bM0jxDpJ3O0"
   },
   {
@@ -633,7 +633,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 22,
+      "width": 30,
       "height": 40
     },
     "_anchorPoint": {
@@ -676,8 +676,8 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_string": "1",
-    "_N$string": "1",
+    "_string": "0",
+    "_N$string": "0",
     "_fontSize": 36,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -1064,7 +1064,7 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 0,
+      "x": 1.1368683772161603e-13,
       "y": 0,
       "z": 0
     },
@@ -1132,7 +1132,7 @@
     "_top": 0,
     "_bottom": 0,
     "_verticalCenter": 0,
-    "_horizontalCenter": 0,
+    "_horizontalCenter": 1.1368683772161603e-13,
     "_isAbsLeft": true,
     "_isAbsRight": true,
     "_isAbsTop": true,
@@ -3565,6 +3565,12 @@
     "scoreTargetLabel": {
       "__id__": 18
     },
+    "coinNumLabel": {
+      "__id__": 34
+    },
+    "StageNumLabel": {
+      "__id__": 13
+    },
     "_id": "feifjanUtKML5zL0Cz/GYw"
   },
   {
@@ -3692,5 +3698,20 @@
     "_fitWidth": false,
     "_fitHeight": true,
     "_id": "fcJbGLy+1D/7qRgYA00cFJ"
+  },
+  {
+    "__type__": "97455Kyv0BLbZtKcn84TV+9",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "_coinNum": 0,
+    "nowStage": 1,
+    "nowStageTarget": 400,
+    "coinStep": 10,
+    "targetStep": 10,
+    "_id": "57QlqvaltM4qTD65dW4S6a"
   }
 ]

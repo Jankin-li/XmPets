@@ -17,7 +17,6 @@ cc.Class({
         ScoreStep: 10,//加分值
         baseScore: 0,//总分
         effect: cc.Prefab,//获取特效组件
-
     },
 
     //生成Item
@@ -38,7 +37,6 @@ cc.Class({
         let delayAct = cc.delayTime(0.2);
         let sequence = cc.sequence(delayAct, moveTo, callFunc);
         iconPrefab.runAction(sequence);//播放动作
-
         // cc.js.formatStr()
         //对于实例化的物体进行点击注册
         //点击时有背景
@@ -46,7 +44,7 @@ cc.Class({
             anim.play('changeSelect');
         });
 
-        iconPrefab.on(cc.Node.EventType.TOUCH_CANCEL,evenTouch=>{
+        iconPrefab.on(cc.Node.EventType.TOUCH_CANCEL, evenTouch => {
             anim.stop('changeSelect');
             anim.play('back');
         })
@@ -93,12 +91,8 @@ cc.Class({
                 iconPrefab.isSerched = false;
             }
         }, this);
-
         return iconPrefab;
     },
-
-
-
     //开局初始化
     setIconInTheLay: function () {
         for (let row = 0; row < this.RowMax; row++) {
@@ -148,7 +142,7 @@ cc.Class({
                         let moveTo = cc.moveTo(duration, endPos);//设置动画
                         newItemPull.stopAllActions();
                         //延迟掉落
-                        var callFunc = cc.callFunc(() => {});
+                        var callFunc = cc.callFunc(() => { });
                         let delayAct = cc.delayTime(0.2);
                         let sequence = cc.sequence(delayAct, moveTo, callFunc);
                         newItemPull.runAction(sequence);//播放动zuo
@@ -177,7 +171,6 @@ cc.Class({
             }
         }
     },
-
     //分数计算 DONE!
     countScore: function () {
         let length = this.deletArry.length;
@@ -195,6 +188,7 @@ cc.Class({
         return score;
     },
 
+    //寻找即将被删除的Item
     countItemDelet: function (curretTarget) {
         if (curretTarget.isSerched) {
             return;//当前目标若搜寻过则跳过防止死循环
@@ -228,10 +222,9 @@ cc.Class({
             }
         }
         //当前结点遍历完毕已无相同图片时 递归结束 存入数组中
-
     },
 
-    //自己想法:
+    //计算坐标 自己想法:
     countPos(cols, rows) {
         let x = this._startPosX + (this.node.width / this.ColMax) * cols;//在哪一列
         let y = this._startPosY + (this.node.height / this.RowMax) * rows;//在哪一行
@@ -244,8 +237,8 @@ cc.Class({
     //     cc.log(x, y);
     //     return cc.v2(x, y);
     // },
-
     onLoad() {
+        //too do 发送当前关卡的TargetScore 和 当前关卡的数字
         var iconPrefab = cc.instantiate(this.iconPrefabs);
         this._startPosX = (-this.node.width + iconPrefab.width) / 2 + this.startIntervalX;
         this._startPosY = (-this.node.height + iconPrefab.height) / 2 + this.startIntervalY;
