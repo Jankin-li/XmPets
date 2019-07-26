@@ -3,7 +3,7 @@
   "_name": "numberUp",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 0.6666666666666666,
+  "_duration": 1,
   "sample": 15,
   "speed": 0.8,
   "wrapMode": 1,
@@ -25,8 +25,26 @@
           "value": 255
         },
         {
-          "frame": 0.6666666666666666,
+          "frame": 1,
           "value": 0
+        }
+      ],
+      "scale": [
+        {
+          "frame": 0,
+          "value": {
+            "__type__": "cc.Vec2",
+            "x": 1,
+            "y": 1
+          }
+        },
+        {
+          "frame": 0.3333333333333333,
+          "value": {
+            "__type__": "cc.Vec2",
+            "x": 1.2,
+            "y": 1.2
+          }
         }
       ]
     }

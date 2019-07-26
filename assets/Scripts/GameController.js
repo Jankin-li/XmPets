@@ -47,7 +47,7 @@ cc.Class({
         iconPrefab.on(cc.Node.EventType.TOUCH_CANCEL, evenTouch => {
             anim.stop('changeSelect');
             anim.play('back');
-        })
+        });
         //松开点击时背景取消同时进行消除算法
         iconPrefab.on(cc.Node.EventType.TOUCH_END, (evenTouch) => {
             anim.stop('changeSelect');
@@ -112,7 +112,7 @@ cc.Class({
     },
 
 
-    // //掉落补充
+    // //掉落移动
     dropTheItem() {
         //
         for (let col = 0; col < this.ColMax; col++) {
