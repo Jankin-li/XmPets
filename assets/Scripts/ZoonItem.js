@@ -3,7 +3,6 @@ cc.Class({
 
     properties: {
         imagine : [cc.SpriteFrame],
-        // backimagine : [cc.SpriteFrame],
         _index: 0,
         index: {
             type: cc.Integer,
@@ -14,7 +13,6 @@ cc.Class({
                 this._index = value % this.imagine.length;
                 let sprite = this.node.getComponent(cc.Sprite);
                 sprite.spriteFrame = this.imagine[this._index];
-                // let backSpriteFrame = this.backSpriteFrame[this._index];
             },
             get(){
                 return this._index;

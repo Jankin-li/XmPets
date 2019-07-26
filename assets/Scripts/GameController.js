@@ -1,5 +1,5 @@
 
-
+let itemActivePreArray = [];
 cc.Class({
     extends: cc.Component,
 
@@ -16,36 +16,44 @@ cc.Class({
         ScoreStart: 15,//加分开始值
         ScoreStep: 10,//加分值
         baseScore: 0,//总分
-        scoreGotLabel: cc.Label,//获取积分组件
         effect: cc.Prefab,//获取特效组件
-        deletAudios: {
-            type: cc.AudioClip,
-            default: [],
-        },
+
     },
 
     //生成Item
     instantiateNewItem: function (endPos) {
         let iconPrefab = cc.instantiate(this.iconPrefabs);
-        iconPrefab.getComponent('ZoonItem').index = Math.floor(Math.random() * 10 % 7);
+        let itemIdex = Math.floor(Math.random() * 10 % 7);
+        iconPrefab.getComponent('ZoonItem').index = itemIdex;
+        var anim = iconPrefab.getComponent(cc.Animation);
         //初始化坐标
         let startPos = cc.v2(endPos.x, endPos.y + cc.winSize.height);//生成坐标
         this.node.addChild(iconPrefab);//将实例化的物体添加为框的子节点
         iconPrefab.setPosition(startPos);//设置生成坐标
-        let duration = this.dropSpeed / 3;//计算降落时间
 
+        let duration = this.dropSpeed / 3;//计算降落时间
+        this._IconAryy.push(iconPrefab);//弹入一维数组中保存       
         let moveTo = cc.moveTo(duration, endPos);//设置动画
         var callFunc = cc.callFunc(() => { });
         let delayAct = cc.delayTime(0.2);
         let sequence = cc.sequence(delayAct, moveTo, callFunc);
         iconPrefab.runAction(sequence);//播放动作
 
-        cc.js.formatStr()
+        // cc.js.formatStr()
         //对于实例化的物体进行点击注册
-        // iconPrefab.on(cc.Node.EventType.TOUCH_START,(evenTouch)=>{
+        //点击时有背景
+        iconPrefab.on(cc.Node.EventType.TOUCH_START, (evenTouch) => {
+            anim.play('changeSelect');
+        });
 
-        // },this);
+        iconPrefab.on(cc.Node.EventType.TOUCH_CANCEL,evenTouch=>{
+            anim.stop('changeSelect');
+            anim.play('back');
+        })
+        //松开点击时背景取消同时进行消除算法
         iconPrefab.on(cc.Node.EventType.TOUCH_END, (evenTouch) => {
+            anim.stop('changeSelect');
+            anim.play('back');
             //临时数组
             this.deletArry = [];
             //遍历相同  
@@ -55,7 +63,7 @@ cc.Class({
             if (this.deletArry.length > 1) {
                 let n = 0;//累积器
                 //播放音效
-                this.playDeletAudios();
+                cc.director.emit('music', this.deletArry);
                 //删除
                 this.deletArry.forEach(function (element) {
                     //实例化特效
@@ -74,7 +82,6 @@ cc.Class({
                     let i = element.rowLocal * this.ColMax + element.colLocal;
                     this._IconAryy[i] = null;//清空数组在当前位置的内存
                     element.destroy();//当前Item摧毁
-
                     //特效延时摧毁器
                     let delayAct = cc.delayTime(0.4);
                     let sequence = cc.sequence(delayAct, callFunc);
@@ -84,28 +91,13 @@ cc.Class({
                 this.dropTheItem();
             } else {
                 iconPrefab.isSerched = false;
-            };
-
-            // cc.audioEngine.stopAllEffects();
-
+            }
         }, this);
 
         return iconPrefab;
     },
 
-    playDeletAudios() {
-        switch (this.deletArry.length) {
-            case 2: cc.audioEngine.play(this.deletAudios[0], false, 1); return;
-            case 3: cc.audioEngine.play(this.deletAudios[1], false, 1); return;
-            case 4: cc.audioEngine.play(this.deletAudios[2], false, 1); return;
-            case 5: cc.audioEngine.play(this.deletAudios[3], false, 1); return;
-            case 6: cc.audioEngine.play(this.deletAudios[4], false, 1); return;
-            case 7: cc.audioEngine.play(this.deletAudios[5], false, 1); return;
-            case 8: cc.audioEngine.play(this.deletAudios[6], false, 1); return;
-            case 9: cc.audioEngine.play(this.deletAudios[7], false, 1); return;
-        }
 
-    },
 
     //开局初始化
     setIconInTheLay: function () {
@@ -117,7 +109,6 @@ cc.Class({
                 //设置实例化的坐标
                 iconPrefab.rowLocal = row;
                 iconPrefab.colLocal = col;
-                this._IconAryy.push(iconPrefab);//弹入一维数组中保存       
             }
         }
     },
@@ -157,7 +148,7 @@ cc.Class({
                         let moveTo = cc.moveTo(duration, endPos);//设置动画
                         newItemPull.stopAllActions();
                         //延迟掉落
-                        var callFunc = cc.callFunc(() => { });
+                        var callFunc = cc.callFunc(() => {});
                         let delayAct = cc.delayTime(0.2);
                         let sequence = cc.sequence(delayAct, moveTo, callFunc);
                         newItemPull.runAction(sequence);//播放动zuo
@@ -200,7 +191,7 @@ cc.Class({
         }
         //总分计算
         this.baseScore = score + this.baseScore;
-        this.scoreGotLabel.string = "" + this.baseScore;//更新文本
+        cc.director.emit('score', this.baseScore);
         return score;
     },
 

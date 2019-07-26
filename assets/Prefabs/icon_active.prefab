@@ -12,7 +12,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "iconPrefabs",
+    "_name": "icon_active",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -24,13 +24,10 @@
       },
       {
         "__id__": 3
-      },
-      {
-        "__id__": 4
       }
     ],
     "_prefab": {
-      "__id__": 5
+      "__id__": 4
     },
     "_opacity": 255,
     "_color": {
@@ -42,8 +39,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 79,
-      "height": 82
+      "width": 106,
+      "height": 103
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -87,7 +84,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "b11f893d-1f7b-406a-bc6b-aaff51ad4ff9"
+      "__uuid__": "3ed7dfaf-a3b4-41ca-b2bf-9773e726ea9a"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -114,50 +111,30 @@
     "_enabled": true,
     "imagine": [
       {
-        "__uuid__": "32de5212-5c07-4a96-b3dc-cd2866124d9e"
+        "__uuid__": "3ed7dfaf-a3b4-41ca-b2bf-9773e726ea9a"
       },
       {
-        "__uuid__": "b11f893d-1f7b-406a-bc6b-aaff51ad4ff9"
+        "__uuid__": "e561a465-92b8-43cb-8c92-e944def09afd"
       },
       {
-        "__uuid__": "01d01315-188c-45c8-b30d-e853608e2b45"
+        "__uuid__": "d5daaa3a-1b5f-4127-ad8a-600320541bf6"
       },
       {
-        "__uuid__": "1dcd914d-bcc1-456f-b63c-fe94bb61d253"
+        "__uuid__": "359c0543-b351-4668-85a1-47a4f68507a5"
       },
       {
-        "__uuid__": "0e47c097-535e-48f7-8a3b-cf929c2267b2"
+        "__uuid__": "3549b301-2acf-40d9-890d-3a22d508876d"
       },
       {
-        "__uuid__": "a7e99b37-b235-43bd-8138-363a2319d2b3"
+        "__uuid__": "2a9c1b12-f3e9-4381-b976-3e6bebde3099"
       },
       {
-        "__uuid__": "8c6ee931-3aa8-41f9-bf2b-b8d2fe2deba0"
+        "__uuid__": "77d0dc4b-9aa5-4ddb-99df-09593d1579a1"
       }
     ],
-    "_index": 1,
+    "_index": 0,
     "colLocal": 0,
     "rowLocal": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.Animation",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "_defaultClip": null,
-    "_clips": [
-      {
-        "__uuid__": "54af8c1e-4051-4636-8fca-0d7bee346937"
-      },
-      {
-        "__uuid__": "571ea767-3b89-4dbc-9250-505e4bf51112"
-      }
-    ],
-    "playOnLoad": false,
     "_id": ""
   },
   {
@@ -166,9 +143,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "c1d6646a-1b67-48f0-a031-ec8c7cd304ea"
+      "__uuid__": "1d5fb77f-18c6-41dc-9404-9ed1e35b4fb7"
     },
-    "fileId": "5edKDS8dBKspASrtszwvhT",
+    "fileId": "7fRVROoeBDII6xJAiDwy4y",
     "sync": false
   }
 ]
